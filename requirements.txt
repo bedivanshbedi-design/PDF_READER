@@ -1,4 +1,5 @@
 streamlit
+fitz
 sentence_transformers
 transformers
 faiss-cpu
