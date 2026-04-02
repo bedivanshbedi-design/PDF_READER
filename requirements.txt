@@ -1,5 +1,5 @@
 streamlit
-fitz
+pymupdf
 sentence_transformers
 transformers
 faiss-cpu
