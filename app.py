@@ -16,7 +16,7 @@ def load_models():
       max_new_tokens =80,
   #     temperature=0.1,
         do_smaple=True
-  # )
+  )
   return embed_model, qa_pipeline
 
 embed_model, qa_pipeline = load_models()
