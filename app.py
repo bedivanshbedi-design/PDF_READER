@@ -114,7 +114,7 @@ def get_relevant_chunks(query,index, chunks, k=5):
     if 30 < len(chunk.split()) < 120:
       selected_chunks.append(chunk)
 
-  logger.info(f"Selected chunks count: {len(selected chunks)}")
+  logger.info(f"Selected chunks count: {len(selected_chunks)}")
   return selected_chunks[:2]
 
 
