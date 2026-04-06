@@ -22,9 +22,9 @@ logger = logging.getLogger(__name__)
 
 @st.cache_resource
 def load_models():
-  embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+  embed_model = SentenceTransformer("all-MiniLM-L6-v2",device="cpu")
   qa_pipeline = pipeline(
-      "text-generation",
+      "text2text-generation",
       model = "google/flan-t5-small",
       max_new_tokens=80,
   #   temperature=0.1,
@@ -129,11 +129,8 @@ def ask_question(query,index,chunks):
 
   # updated prompt because wise precise and 10 lines answer only news lines added
   prompt = f"""
-  # -Answer only from the context
-  # - Do NOT repeat context
-  # - Do NOT explain extra
-  # - Maximum 3 lines
-  # - If answer not found say: not in document
+  Answer only from the context below.
+  If answer not found say: not in document
 
   Context:
   {context}
@@ -141,10 +138,11 @@ def ask_question(query,index,chunks):
   Question:
   {query}
 
-  Answer in 2-3 lines, if no fund, say 'not in document'.
+  Answer:
   """
 
-  answer = qa_pipeline(prompt)[0]["generated_text"]
+  result=qa_pipeline(prompt)
+  answer = result[0]["generated_text"].replace(Prompt,"").strip()
   logger.info(f"final answer: {answer}")
   return answer, context
 
