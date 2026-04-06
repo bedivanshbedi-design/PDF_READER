@@ -1,6 +1,6 @@
 streamlit
 pymupdf
 sentence_transformers
-transformers>= 4.36.0
+transformers == 4.38.0
 faiss-cpu
 pymupdf
