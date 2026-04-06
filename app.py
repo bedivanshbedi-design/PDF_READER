@@ -28,7 +28,7 @@ def load_models():
       model = "google/flan-t5-small",
       max_new_tokens=80,
   #   temperature=0.1,
-      do_sample=False
+      do_sample=False                                                               
   )
   logger.info("Models loaded successfully")
   return embed_model, qa_pipeline
