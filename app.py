@@ -96,8 +96,10 @@ def create_index(chunks):
 
   logger.info(f"Embeddings shape: {embeddings.shape}")
   
-  index = faiss.IndexFlatL2(embeddings.shape[1])
-  index.add(embeddings)
+  # index = faiss.IndexFlatL2(embeddings.shape[1])
+  # index.add(embeddings)
+
+
 
   logger.info("FAISS index created successfully")
   return index
@@ -106,15 +108,20 @@ def create_index(chunks):
 # Adding new relevant chunk function here(only good chunks should be retrieved)
 def get_relevant_chunks(query,index, chunks, k=5):
   query_embedding = embed_model.encode([query])
-  distances, indices = index.search(np.array(query_embedding),k)
+  # distances, indices = index.search(np.array(query_embedding),k)
+  
+  scores = np.dot(embeddings, query_embedding)
+  top_k_idx = np.argsort(scores)[-k:][::-1]
 
-  selected_chunks = []
-  for i in indices[0]:
-    chunk = chunks[i]
-    selected_chunks.append(chunk)
+  return [chunks[i] for i in top_k_idx[:2]]
+
+  # selected_chunks = []
+  # for i in indices[0]:
+  #   chunk = chunks[i]
+  #   selected_chunks.append(chunk)
 
   logger.info(f"Selected chunks count: {len(selected_chunks)}")
-  return selected_chunks[:2]
+  # return selected_chunks[:2]
 
 
 def ask_question(query,index,chunks):
