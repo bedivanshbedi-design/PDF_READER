@@ -1,6 +1,6 @@
 streamlit
 pymupdf
-sentence_transformers
+sentence-transformers
 transformers == 4.38.0
 faiss-cpu
-pymupdf
+torch
