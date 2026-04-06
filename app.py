@@ -11,7 +11,7 @@ import logging
 
 logging.basicConfig(
     level=logging.INFO,
-    format ="%(asctime)s - %(levelname)s - %(messages)s"
+    format ="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 logger = logging.getLogger(__name__)
@@ -111,8 +111,7 @@ def get_relevant_chunks(query,index, chunks, k=5):
   selected_chunks = []
   for i in indices[0]:
     chunk = chunks[i]
-    if 30 < len(chunk.split()) < 120:
-      selected_chunks.append(chunk)
+    selected_chunks.append(chunk)
 
   logger.info(f"Selected chunks count: {len(selected_chunks)}")
   return selected_chunks[:2]
@@ -146,7 +145,7 @@ def ask_question(query,index,chunks):
   """
 
   answer = qa_pipeline(prompt)[0]["generated_text"]
-  logger.info("final answer: {answer}")
+  logger.info(f"final answer: {answer}")
   return answer, context
 
 # UI
