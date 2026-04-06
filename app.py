@@ -126,7 +126,7 @@ def ask_question(query,index,chunks):
   context = clean_text(context)
 
   logger.info(f"context length: {len(context)}")
-  logger.
+  
 
   # updated prompt because wise precise and 10 lines answer only news lines added
   prompt = f"""
