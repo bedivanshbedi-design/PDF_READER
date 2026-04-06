@@ -14,7 +14,7 @@ logging.basicConfig(
     format ="%(asctime)s - %(levelname)s - %(messages)s"
 )
 
-logger = logging.getLogger(__LOG__)
+logger = logging.getLogger(__name__)
 
 
 
