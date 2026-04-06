@@ -11,11 +11,11 @@ from transformers import pipeline
 def load_models():
   embed_model = SentenceTransformer("all-MiniLM-L6-v2")
   qa_pipeline = pipeline(
-      "text2text-generation",
+      "text-generation",
       model = "google/flan-t5-small",
-      max_new_tokens =80,
+      max_new_tokens=80,
   #   temperature=0.1,
-      do_smaple=True
+      do_sample=True
   )
   return embed_model, qa_pipeline
 
