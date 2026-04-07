@@ -96,8 +96,8 @@ def create_index(chunks):
 
   logger.info(f"Embeddings shape: {embeddings.shape}")
   
-  # index = faiss.IndexFlatL2(embeddings.shape[1])
-  # index.add(embeddings)
+  index = faiss.IndexFlatL2(embeddings.shape[1])
+  index.add(embeddings)
 
 
 
