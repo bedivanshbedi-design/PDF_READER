@@ -174,7 +174,7 @@ if uploaded_file:
   query =st.chat_input("Ask something...")
 
   if query:
-    answer, context = ask_question(query,index,chunks)
+    answer, context = ask_question(query,embeddings,chunks)
 
     st.session_state.chat.append(("user",query))
     st.session_state.chat.append(("bot",answer))
