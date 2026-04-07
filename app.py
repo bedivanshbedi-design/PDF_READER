@@ -106,7 +106,7 @@ def create_index(chunks):
 
 
 # Adding new relevant chunk function here(only good chunks should be retrieved)
-def get_relevant_chunks(query,index, chunks, k=5):
+def get_relevant_chunks(query,embeddings, chunks, k=5):
   query_embedding = embed_model.encode(query)
   # distances, indices = index.search(np.array(query_embedding),k)
   
@@ -124,7 +124,7 @@ def get_relevant_chunks(query,index, chunks, k=5):
   # return selected_chunks[:2]
 
 
-def ask_question(query,index,chunks):
+def ask_question(query,embeddings,chunks):
   # New retrieval
   relevant_chunk = get_relevant_chunks(query,index,chunks)
 
@@ -164,7 +164,7 @@ uploaded_file = st.file_uploader("Upload PDF", type ="pdf")
 if uploaded_file:
   text = load_pdf(uploaded_file)
   chunks=chunk_text(text)
-  index = create_index(chunks)
+  Embeddings = create_index(chunks)
 
   st.success("PDF Processed")
 
