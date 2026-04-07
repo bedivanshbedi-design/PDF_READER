@@ -27,8 +27,9 @@ def load_models():
       "text-generation",
       model = "gpt2",
       max_new_tokens=100,
-      temperature=0.3,
-      do_sample=False                                                               
+      temperature=0.7,
+      do_sample=True,
+      top_p=0.9                                                               
   )
   logger.info("Models loaded successfully")
   return embed_model, qa_pipeline
@@ -136,9 +137,6 @@ def ask_question(query,embeddings,chunks):
 
   # updated prompt because wise precise and 10 lines answer only news lines added
   prompt = f"""
-  Answer only from the context below.
-  If answer not found say: not in document
-
   Context:
   {context}
 
@@ -149,7 +147,7 @@ def ask_question(query,embeddings,chunks):
   """
 
   result=qa_pipeline(prompt)
-  answer = result[0]["generated_text"].replace(prompt,"").strip()
+  answer = result[0]["generated_text"].strip()
   logger.info(f"final answer: {answer}")
   return answer, context
 
