@@ -96,13 +96,13 @@ def create_index(chunks):
 
   logger.info(f"Embeddings shape: {embeddings.shape}")
   
-  index = faiss.IndexFlatL2(embeddings.shape[1])
-  index.add(embeddings)
+  # index = faiss.IndexFlatL2(embeddings.shape[1])
+  # index.add(embeddings)
 
 
 
   logger.info("FAISS index created successfully")
-  return index
+  return embeddings
 
 
 # Adding new relevant chunk function here(only good chunks should be retrieved)
@@ -149,7 +149,7 @@ def ask_question(query,embeddings,chunks):
   """
 
   result=qa_pipeline(prompt)
-  answer = result[0]["generated_text"].replace(Prompt,"").strip()
+  answer = result[0]["generated_text"].replace(prompt,"").strip()
   logger.info(f"final answer: {answer}")
   return answer, context
 
@@ -164,7 +164,7 @@ uploaded_file = st.file_uploader("Upload PDF", type ="pdf")
 if uploaded_file:
   text = load_pdf(uploaded_file)
   chunks=chunk_text(text)
-  Embeddings = create_index(chunks)
+  embeddings = create_index(chunks)
 
   st.success("PDF Processed")
 
