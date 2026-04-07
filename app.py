@@ -107,10 +107,10 @@ def create_index(chunks):
 
 # Adding new relevant chunk function here(only good chunks should be retrieved)
 def get_relevant_chunks(query,index, chunks, k=5):
-  query_embedding = embed_model.encode([query])
+  query_embedding = embed_model.encode(query)
   # distances, indices = index.search(np.array(query_embedding),k)
   
-  scores = np.dot(embeddings, query_embedding)
+  scores = np.dot(embeddings, query_embedding.T)
   top_k_idx = np.argsort(scores)[-k:][::-1]
 
   return [chunks[i] for i in top_k_idx[:2]]
