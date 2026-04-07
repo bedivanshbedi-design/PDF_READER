@@ -126,7 +126,7 @@ def get_relevant_chunks(query,embeddings, chunks, k=5):
 
 def ask_question(query,embeddings,chunks):
   # New retrieval
-  relevant_chunk = get_relevant_chunks(query,index,chunks)
+  relevant_chunk = get_relevant_chunks(query,embeddings,chunks)
 
   context =" ".join(relevant_chunk)
   context = clean_text(context)
