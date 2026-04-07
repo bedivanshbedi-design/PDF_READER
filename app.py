@@ -168,7 +168,7 @@ uploaded_file = st.file_uploader("Upload PDF", type ="pdf",accept_multiple_files
 
 if uploaded_file:
   all_text =""
-  for file in uploaded_files:
+  for file in uploaded_file:
     logger.info(f"Processing file: {file.name}")
     text = load_pdf(file)
     all_text +=text + " "
