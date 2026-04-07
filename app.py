@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 def load_models():
   embed_model = SentenceTransformer("all-MiniLM-L6-v2",device="cpu")
   qa_pipeline = pipeline(
-      "text-generation",
+      "text2text-generation",
       model = "google/flan-t5-small",
       max_new_tokens=80,
   #   temperature=0.1,
