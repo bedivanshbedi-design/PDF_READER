@@ -164,14 +164,19 @@ if st.button("clean chat"):
   st.rerun()
 
 
-uploaded_file = st.file_uploader("Upload PDF", type ="pdf")
+uploaded_file = st.file_uploader("Upload PDF", type ="pdf",accept_multiple_files=True)
 
 if uploaded_file:
-  text = load_pdf(uploaded_file)
-  chunks=chunk_text(text)
+  all_text =""
+  for file in uploaded_files:
+    logger.info(f"Processing file: {file.name}")
+    text = load_pdf(file)
+    all_text +=text + " "
+
+  chunks=chunk_text(all_text)
   embeddings = create_index(chunks)
 
-  st.success("PDF Processed")
+  st.success("all PDF Processed")
 
   if "chat" not in st.session_state:
     st.session_state.chat = []
