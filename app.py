@@ -157,6 +157,13 @@ st.set_page_config(page_title="PDF Chat",layout="centered")
 
 st.title("Chat with yout PDF")
 
+if st.button("clean chat"):
+  st.session_state.chat = []
+  if "context" in st.session_state:
+    del st.session_state.Context
+  st.rerun()
+
+
 uploaded_file = st.file_uploader("Upload PDF", type ="pdf")
 
 if uploaded_file:
