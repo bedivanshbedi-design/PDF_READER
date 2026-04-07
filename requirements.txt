@@ -3,5 +3,5 @@ pymupdf
 faiss-cpu 
 numpy 
 sentence-transformers
-transformers 
+transformers>=4.30.0
 torch
