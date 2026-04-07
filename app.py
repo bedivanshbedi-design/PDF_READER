@@ -4,6 +4,10 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from transformers import pipeline
+from ragas import evaluate
+from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
+from datasets import Dataset
+
 
 #Setup Logger
 
@@ -183,12 +187,25 @@ if uploaded_file:
 
   query =st.chat_input("Ask something...")
 
+  if "eval_data" not in st.session_state:
+    st.session_state.eval_data =[]
+
+  
+
+
   if query:
     answer, context = ask_question(query,embeddings,chunks)
 
     st.session_state.chat.append(("user",query))
     st.session_state.chat.append(("bot",answer))
     st.session_state.context = context
+
+    st.session_state.eval_data.append({
+        "question": query,
+        "answer": answer,
+        "contexts":[context],
+        "ground_truth": " "
+    })
 
   for role,msg in st.session_state.chat:
     with st.chat_message(role):
@@ -198,7 +215,26 @@ if uploaded_file:
     with st.expander ("context used"):
       st.write(st.session_state.context)
 
+  if st.button("evaluate RAG"):
+    if "eval_data" in st.session_state and st.sessin_state.eval_data:
+      
+      dataset = Dataset.from_list(st.session_state.eval_data)
+      dataset = evaluate(
+          dataset,
+          metrics=[
+              faithfulness,
+              answer_relevancy,
+              context_precision,
+              context_recall
+          ]
+          
+      )
+      
+      st.write("Evaluation Results")
+      st.write(result)
 
+    else:
+      st.writing("No data to evaluate")
 
 
 
