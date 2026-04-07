@@ -160,7 +160,7 @@ st.title("Chat with yout PDF")
 if st.button("clean chat"):
   st.session_state.chat = []
   if "context" in st.session_state:
-    del st.session_state.Context
+    del st.session_state.context
   st.rerun()
 
 
