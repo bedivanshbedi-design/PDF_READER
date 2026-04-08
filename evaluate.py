@@ -24,9 +24,8 @@ def run_evaluate(dataset):
 )
 
 
-df=result.to_pandas()
-
-return result. df
+  df=result.to_pandas()
+  return result, df
 
 
 
