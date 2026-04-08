@@ -28,22 +28,22 @@ def run_evaluate(dataset):
         contexts = [str(contexts)]
     contexts = [str(c) for c in contexts if c]
 
-      # skip bad rows
-      if not question or not answer or not contexts:
+    # skip bad rows
+    if not question or not answer or not contexts:
           continue
 
-      clean_data.append({
-          "question": question,
-          "answer": answer,
-          "contexts": contexts,
-          "ground_truth": ground_truth if ground_truth else contexts[0]
-        })
+    clean_data.append({
+        "question": question,
+        "answer": answer,
+        "contexts": contexts,
+        "ground_truth": ground_truth if ground_truth else contexts[0]
+      })
 
   # 🚨 CRITICAL CHECK
   if len(clean_data) == 0:
       raise ValueError("All eval_data rows are invalid. Nothing to evaluate.")
 
-  dataset = Dataset.from_list(data)
+  dataset = Dataset.from_list(clean_data)
 
   result = evaluate(
           dataset,
