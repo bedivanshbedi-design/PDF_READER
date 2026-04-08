@@ -163,15 +163,16 @@ st.set_page_config(page_title="PDF Chat",layout="centered")
 st.title("Chat with yout PDF")
 
 if st.button("clean chat"):
-  st.session_state.chat_history = []
+  st.session_state.chat = []
   st.session_state.eval_data = []
+  st.session_state.pop("context", None)
 
 
 
 
-if "context" in st.session_state:
-  del st.session_state.context
-st.rerun()
+# if "context" in st.session_state:
+#   del st.session_state.context
+# st.rerun()
 
 
 uploaded_file = st.file_uploader("Upload PDF", type ="pdf",accept_multiple_files=True)
@@ -229,8 +230,8 @@ if uploaded_file:
     if len(st.session_state.eval_data) > 0:
       # dataset =Dataset.from_list(st.session_state.eval_data)
 
-      result, df = run_evaluation(st.session_state, eval_data)
-
+      result, df = run_evaluate(st.session_state.eval_data)
+      st.write(df)
       st.write(result)
     else:
       st.warning("no data to evaluate")
