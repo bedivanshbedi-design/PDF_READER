@@ -10,7 +10,8 @@ with open("eval_data.json","r" ) as f:
 
 dataset = Dataset.from_list(data)
 
-dataset = evaluate(
+def run_evaluate(dataset):
+  result = evaluate(
           dataset,
           metrics=[
               faithfulness,
@@ -19,6 +20,8 @@ dataset = evaluate(
               context_recall
           ]
 )
+
+
 
 print("Evaluation results:\n")
 print(result)

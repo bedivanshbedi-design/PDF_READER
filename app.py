@@ -4,6 +4,7 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from transformers import pipeline
+from evaluate import run_evaluate
 
 
 # if "eval_data" not in st.session_state:
@@ -165,7 +166,7 @@ if st.button("clean chat"):
   st.session_state.chat_history = []
   st.session_state.eval_data = []
 
-  
+
 
 
 if "context" in st.session_state:
@@ -224,6 +225,17 @@ if uploaded_file:
     with st.expander ("context used"):
       st.write(st.session_state.context)
 
+  if st.button("run evaluation"):
+    if len(st.session_state.eval_data) > 0:
+      dataset =Dataset.from_list(st.session_state.eval_data)
+
+      result = run_evaluation(dataset)
+
+      st.write(result)
+    else:
+      st.warning("no data to evaluate")
+
+      
   # if st.button("evaluate RAG"):
   #   if "eval_data" in st.session_state and st.session_state.eval_data:
       
