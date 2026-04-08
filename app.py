@@ -227,15 +227,15 @@ if uploaded_file:
 
   if st.button("run evaluation"):
     if len(st.session_state.eval_data) > 0:
-      dataset =Dataset.from_list(st.session_state.eval_data)
+      # dataset =Dataset.from_list(st.session_state.eval_data)
 
-      result = run_evaluation(dataset)
+      result, df = run_evaluation(st.session_state, eval_data)
 
       st.write(result)
     else:
       st.warning("no data to evaluate")
 
-      
+
   # if st.button("evaluate RAG"):
   #   if "eval_data" in st.session_state and st.session_state.eval_data:
       

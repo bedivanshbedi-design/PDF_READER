@@ -8,7 +8,7 @@ import pandas as pd
 # with open("eval_data.json","r" ) as f:
 #   data = json.load(f)
 
-dataset = Dataset.from_list(data)
+# dataset = Dataset.from_list(data)
 
 def run_evaluate(dataset):
   result = evaluate(
