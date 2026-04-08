@@ -210,12 +210,12 @@ if uploaded_file:
   if "eval_data" not in st.session_state:
     st.session_state.eval_data =[]
 
-  if "answer" in locals():     
+    
     st.session_state.eval_data.append({
-        "question": query,
-        "answer": answer,
-        "contexts":[context],
-        "ground_truth": answer
+        "question": str(query) if query else " ",
+        "answer": str(answer) if answer else " ",
+        "contexts": [str(context)] if context else [""],
+        "ground_truth": str(context) if context else " "
     })
 
   for role,msg in st.session_state.chat:
@@ -227,12 +227,18 @@ if uploaded_file:
       st.write(st.session_state.context)
 
   if st.button("run evaluation"):
-    if len(st.session_state.eval_data) > 0:
+
+    if "eval_data" in st.session_statelen(st.session_state.eval_data) > 0:
+      st.write("running evaluation")
+
+
+
       # dataset =Dataset.from_list(st.session_state.eval_data)
 
       result, df = run_evaluate(st.session_state.eval_data)
       st.write(df)
-      st.write(result)
+
+    
     else:
       st.warning("no data to evaluate")
 
