@@ -236,7 +236,7 @@ if uploaded_file:
     else:
       st.writing("No data to evaluate")
 
-imprt json
+import json
 
 with open("eval_data.json", "w") as f:
   json.dump(st.session_state.eval_data,f)
