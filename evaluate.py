@@ -11,7 +11,7 @@ import pandas as pd
 # dataset = Dataset.from_list(data)
 
 def run_evaluate(dataset):
-  dataswt = Dataset.from_list(data)
+  dataset = Dataset.from_list(data)
 
   result = evaluate(
           dataset,
