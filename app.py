@@ -199,6 +199,9 @@ if uploaded_file:
     st.session_state.chat.append(("bot",answer))
     st.session_state.context = context
 
+  if "eval_data" not in st.session_state:
+    st.session_state.eval_data =[]
+       
     st.session_state.eval_data.append({
         "question": query,
         "answer": answer,
