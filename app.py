@@ -149,6 +149,7 @@ def ask_question(query,embeddings,chunks):
   Answer:
   """
 
+  answer =""
   result=qa_pipeline(prompt)
   answer = result[0]["generated_text"].strip()
   logger.info(f"final answer: {answer}")
@@ -201,7 +202,8 @@ if uploaded_file:
 
   if "eval_data" not in st.session_state:
     st.session_state.eval_data =[]
-       
+
+  if "answer" in locals():     
     st.session_state.eval_data.append({
         "question": query,
         "answer": answer,
