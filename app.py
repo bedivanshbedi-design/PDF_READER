@@ -8,7 +8,8 @@ from ragas import evaluate
 from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
 from datasets import Dataset
 
-
+  if "eval_data" not in st.session_state:
+    st.session_state.eval_data =[]
 #Setup Logger
 
 import logging
@@ -187,8 +188,8 @@ if uploaded_file:
 
   query =st.chat_input("Ask something...")
 
-  if "eval_data" not in st.session_state:
-    st.session_state.eval_data =[]
+  # if "eval_data" not in st.session_state:
+  #   st.session_state.eval_data =[]
 
   
 
