@@ -4,12 +4,10 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from transformers import pipeline
-from ragas import evaluate
-from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
-from datasets import Dataset
 
-  if "eval_data" not in st.session_state:
-    st.session_state.eval_data =[]
+
+# if "eval_data" not in st.session_state:
+#   st.session_state.eval_data =[]
 #Setup Logger
 
 import logging
@@ -205,7 +203,7 @@ if uploaded_file:
         "question": query,
         "answer": answer,
         "contexts":[context],
-        "ground_truth": " "
+        "ground_truth": answer
     })
 
   for role,msg in st.session_state.chat:
@@ -216,31 +214,31 @@ if uploaded_file:
     with st.expander ("context used"):
       st.write(st.session_state.context)
 
-  if st.button("evaluate RAG"):
-    if "eval_data" in st.session_state and st.session_state.eval_data:
+  # if st.button("evaluate RAG"):
+  #   if "eval_data" in st.session_state and st.session_state.eval_data:
       
-      dataset = Dataset.from_list(st.session_state.eval_data)
-      dataset = evaluate(
-          dataset,
-          metrics=[
-              faithfulness,
-              answer_relevancy,
-              context_precision,
-              context_recall
-          ]
+  #     dataset = Dataset.from_list(st.session_state.eval_data)
+  #     dataset = evaluate(
+  #         dataset,
+  #         metrics=[
+  #             faithfulness,
+  #             answer_relevancy,
+  #             context_precision,
+  #             context_recall
+  #         ]
           
-      )
+  #     )
       
-      st.write("Evaluation Results")
-      st.write(result)
+  #     st.write("Evaluation Results")
+  #     st.write(result)
 
-    else:
-      st.writing("No data to evaluate")
+#     else:
+#       st.writing("No data to evaluate")
 
-import json
+# import json
 
-with open("eval_data.json", "w") as f:
-  json.dump(st.session_state.eval_data,f)
+# with open("eval_data.json", "w") as f:
+#   json.dump(st.session_state.eval_data,f)
 
 
 
