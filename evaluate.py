@@ -11,6 +11,8 @@ import pandas as pd
 # dataset = Dataset.from_list(data)
 
 def run_evaluate(dataset):
+  dataswt = Dataset.from_list(data)
+
   result = evaluate(
           dataset,
           metrics=[
@@ -22,16 +24,12 @@ def run_evaluate(dataset):
 )
 
 
-
-print("Evaluation results:\n")
-print(result)
-
-#Save results
-
 df=result.to_pandas()
-df.to_csv("ragas_results.csv",index=false)
 
-print("\n Results saved to ragas_results.csv")
+return result. df
+
+
+
 
 
 
