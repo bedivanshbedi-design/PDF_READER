@@ -216,7 +216,7 @@ if uploaded_file:
       st.write(st.session_state.context)
 
   if st.button("evaluate RAG"):
-    if "eval_data" in st.session_state and st.sessin_state.eval_data:
+    if "eval_data" in st.session_state and st.session_state.eval_data:
       
       dataset = Dataset.from_list(st.session_state.eval_data)
       dataset = evaluate(
@@ -236,6 +236,10 @@ if uploaded_file:
     else:
       st.writing("No data to evaluate")
 
+imprt json
+
+with open("eval_data.json", "w") as f:
+  json.dump(st.session_state.eval_data,f)
 
 
 
