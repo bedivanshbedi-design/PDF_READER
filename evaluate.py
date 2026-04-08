@@ -5,8 +5,8 @@ import json
 
 import pandas as pd
 
-with open("eval_data.json","r" ) as f:
-  data = json.load(f)
+# with open("eval_data.json","r" ) as f:
+#   data = json.load(f)
 
 dataset = Dataset.from_list(data)
 
