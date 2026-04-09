@@ -130,7 +130,7 @@ if uploaded_file:
 def get_relevant_chunks(query,index, chunks, k=5):
   query_embedding = embed_model.encode([query])
   query_embedding = np.array(query_embedding).astype("float32")
-  distances, indices = index.search(np.array(query_embedding),k)
+  distances, indices = index.search(query_embedding,k)
 
   # scores = np.dot(embeddings, query_embedding.T)
   # top_k_idx = np.argsort(scores)[-k:][::-1]
@@ -143,7 +143,7 @@ def get_relevant_chunks(query,index, chunks, k=5):
     selected_chunks.append(chunk)
 
   logger.info(f"Selected chunks count: {len(selected_chunks)}")
-  # return selected_chunks[:2]
+  return selected_chunks[:k]
 
 
 def ask_question(query,index,chunks):
