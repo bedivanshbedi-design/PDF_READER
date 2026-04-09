@@ -96,8 +96,12 @@ def chunk_text(text, chunk_size=150, overlap=50):
 
 def create_index(chunks):
   logger.info("Creating embeddings..")
+  
+  if len(chunks) ==0:
+    raise ValueError("No chunks available")
+  
   embeddings = embed_model.encode(chunks)
-  embeddings = np.array(embeddings)
+  embeddings = np.array(embeddings).astype("float32")
 
   logger.info(f"Embeddings shape: {embeddings.shape}")
 
@@ -107,7 +111,7 @@ def create_index(chunks):
 
 
   logger.info("FAISS index created successfully")
-  return index
+  return index, embeddings
 
 uploaded_file = st.file_uploader("Upload PDF", type ="pdf",accept_multiple_files=True)
 
@@ -119,7 +123,7 @@ if uploaded_file:
     all_text +=text + " "
 
   chunks=chunk_text(all_text)
-  embeddings = create_index(chunks)
+  index, embeddings = create_index(chunks)
 
 # Adding new relevant chunk function here(only good chunks should be retrieved)
 def get_relevant_chunks(query,index, chunks, k=5):
