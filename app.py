@@ -129,7 +129,7 @@ def get_relevant_chunks(query,embeddings, chunks, k=5):
   scores = np.dot(embeddings, query_embedding.T)
   top_k_idx = np.argsort(scores)[-k:][::-1]
 
-  return [chunks[i] for i in top_k_idx[:2]]
+  return [chunks[i] for i in top_k_idx[:k]]
 
   # selected_chunks = []
   # for i in indices[0]:
