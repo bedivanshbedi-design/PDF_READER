@@ -28,8 +28,8 @@ logger = logging.getLogger(__name__)
 def load_models():
   embed_model = SentenceTransformer("all-MiniLM-L6-v2",device="cpu")
   qa_pipeline = pipeline(
-      "text-generation",
-      model = "gpt2",
+      "text2text-generation",
+      model = "google/flan-t5-base",
       max_new_tokens=100,
       temperature=0.7,
       do_sample=True,
@@ -171,7 +171,7 @@ def ask_question(query,index,chunks):
 
   answer =""
   result=qa_pipeline(prompt)
-  answer = result[0]["generated_text"][len(prompt):].strip()
+  answer = result[0]["generated_text"].strip()
   logger.info(f"final answer: {answer}")
   return answer, context
 
