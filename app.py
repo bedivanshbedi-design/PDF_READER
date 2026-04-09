@@ -79,7 +79,7 @@ def load_pdf(file):
   return clean_text(text)  # Clean here
 
 
-def chunk_text(text, chunk_size=150, overlap=50):
+def chunk_text(text, chunk_size=100, overlap=20):
   words = text.split()
   chunks = []
   for i in range(0,len(words), chunk_size-overlap):
@@ -127,7 +127,7 @@ if uploaded_file:
   index, embeddings = create_index(chunks)
 
 # Adding new relevant chunk function here(only good chunks should be retrieved)
-def get_relevant_chunks(query,index, chunks, k=5):
+def get_relevant_chunks(query,index, chunks, k=2):
   query_embedding = embed_model.encode([query])
   query_embedding = np.array(query_embedding).astype("float32")
   distances, indices = index.search(query_embedding,k)
@@ -150,7 +150,7 @@ def ask_question(query,index,chunks):
   # New retrieval
   relevant_chunk = get_relevant_chunks(query,index,chunks)
 
-  context =" ".join(relevant_chunk)
+  context =" ".join(relevant_chunk)[:1000]
   context = clean_text(context)
 
   logger.info(f"context length: {len(context)}")
