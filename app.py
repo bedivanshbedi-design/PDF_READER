@@ -97,8 +97,8 @@ def chunk_text(text, chunk_size=150, overlap=50):
 def create_index(chunks):
   logger.info("Creating embeddings..")
   
-  if len(chunks) ==0:
-    raise ValueError("No chunks available")
+  # if len(chunks) ==0:
+  #   raise ValueError("No chunks available")
   
   embeddings = embed_model.encode(chunks)
   embeddings = np.array(embeddings).astype("float32")
