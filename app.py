@@ -97,12 +97,13 @@ def chunk_text(text, chunk_size=150, overlap=50):
 def create_index(chunks):
   logger.info("Creating embeddings..")
   
-  # if len(chunks) ==0:
-  #   raise ValueError("No chunks available")
+  if len(chunks) ==0:
+    raise ValueError("No chunks available")
   
   embeddings = embed_model.encode(chunks)
   embeddings = np.array(embeddings).astype("float32")
-
+  if len(embeddings.shape) == 1:
+    embeddings = embeddings.reshape(1,-1)
   logger.info(f"Embeddings shape: {embeddings.shape}")
 
   index = faiss.IndexFlatL2(embeddings.shape[1])
@@ -127,7 +128,8 @@ if uploaded_file:
 
 # Adding new relevant chunk function here(only good chunks should be retrieved)
 def get_relevant_chunks(query,index, chunks, k=5):
-  query_embedding = embed_model.encode(query)
+  query_embedding = embed_model.encode([query])
+  query_embedding = np.array(query_embedding).astype("float32")
   distances, indices = index.search(np.array(query_embedding),k)
 
   # scores = np.dot(embeddings, query_embedding.T)
