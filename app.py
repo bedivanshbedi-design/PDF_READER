@@ -224,7 +224,7 @@ for role,msg in st.session_state.chat:
 
 if "context" in st.session_state:
   with st.expander ("context used"):
-  st.write(st.session_state.context)
+    st.write(st.session_state.context)
 
 if st.button("run evaluation"):
 
