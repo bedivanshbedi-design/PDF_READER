@@ -33,7 +33,7 @@ def load_models():
       max_new_tokens=100,
       temperature=0.7,
       do_sample=True,
-      top_p=0.9
+      top_p=0.1
   )
   logger.info("Models loaded successfully")
   return embed_model, qa_pipeline
@@ -109,6 +109,17 @@ def create_index(chunks):
   logger.info("FAISS index created successfully")
   return embeddings
 
+uploaded_file = st.file_uploader("Upload PDF", type ="pdf",accept_multiple_files=True)
+
+if uploaded_file:
+  all_text =""
+  for file in uploaded_file:
+    logger.info(f"Processing file: {file.name}")
+    text = load_pdf(file)
+    all_text +=text + " "
+
+  chunks=chunk_text(all_text)
+  embeddings = create_index(chunks)
 
 # Adding new relevant chunk function here(only good chunks should be retrieved)
 def get_relevant_chunks(query,embeddings, chunks, k=5):
@@ -175,72 +186,61 @@ if st.button("clean chat"):
 # st.rerun()
 
 
-uploaded_file = st.file_uploader("Upload PDF", type ="pdf",accept_multiple_files=True)
 
-if uploaded_file:
-  all_text =""
-  for file in uploaded_file:
-    logger.info(f"Processing file: {file.name}")
-    text = load_pdf(file)
-    all_text +=text + " "
+st.success("all PDF Processed")
 
-  chunks=chunk_text(all_text)
-  embeddings = create_index(chunks)
+if "chat" not in st.session_state:
+  st.session_state.chat = []
 
-  st.success("all PDF Processed")
-
-  if "chat" not in st.session_state:
-    st.session_state.chat = []
-
-  query =st.chat_input("Ask something...")
+query =st.chat_input("Ask something...")
 
   # if "eval_data" not in st.session_state:
   #   st.session_state.eval_data =[]
 
-  if "eval_data" not in st.session_state:
-    st.session_state.eval_data =[]
+if "eval_data" not in st.session_state:
+  st.session_state.eval_data =[]
 
 
 
-  if query:
-    answer, context = ask_question(query,embeddings,chunks)
+if query:
+  answer, context = ask_question(query,embeddings,chunks)
 
-    st.session_state.chat.append(("user",query))
-    st.session_state.chat.append(("bot",answer))
-    st.session_state.context = context
+  st.session_state.chat.append(("user",query))
+  st.session_state.chat.append(("bot",answer))
+  st.session_state.context = context
 
 
 
-    st.session_state.eval_data.append({
-        "question": str(query) if query else " ",
-        "answer": str(answer) if answer else " ",
-        "contexts": [str(context)] if context else [""],
-        "ground_truth": str(context) if context else " "
+  st.session_state.eval_data.append({
+      "question": str(query) if query else " ",
+      "answer": str(answer) if answer else " ",
+      "contexts": [str(context)] if context else [""],
+      "ground_truth": str(context) if context else " "
     })
 
-  for role,msg in st.session_state.chat:
-    with st.chat_message(role):
-      st.write(msg)
+for role,msg in st.session_state.chat:
+  with st.chat_message(role):
+    st.write(msg)
 
-  if "context" in st.session_state:
-    with st.expander ("context used"):
-      st.write(st.session_state.context)
+if "context" in st.session_state:
+  with st.expander ("context used"):
+  st.write(st.session_state.context)
 
-  if st.button("run evaluation"):
+if st.button("run evaluation"):
 
-    if "eval_data" in st.session_statelen(st.session_state.eval_data) > 0:
-      st.write("running evaluation")
+  if "eval_data" in st.session_state and len(st.session_state.eval_data) > 0:
+    st.write("running evaluation")
 
 
 
       # dataset =Dataset.from_list(st.session_state.eval_data)
 
-      result, df = run_evaluate(st.session_state.eval_data)
-      st.write(df)
+    result, df = run_evaluate(st.session_state.eval_data)
+    st.write(df)
 
 
-    else:
-      st.warning("no data to evaluate")
+  else:
+    st.warning("no data to evaluate")
 
 
   # if st.button("evaluate RAG"):
