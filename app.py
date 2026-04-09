@@ -33,7 +33,7 @@ def load_models():
       max_new_tokens=100,
       temperature=0.7,
       do_sample=True,
-      top_p=0.9                                                               
+      top_p=0.9
   )
   logger.info("Models loaded successfully")
   return embed_model, qa_pipeline
@@ -100,7 +100,7 @@ def create_index(chunks):
   embeddings = np.array(embeddings)
 
   logger.info(f"Embeddings shape: {embeddings.shape}")
-  
+
   # index = faiss.IndexFlatL2(embeddings.shape[1])
   # index.add(embeddings)
 
@@ -114,7 +114,7 @@ def create_index(chunks):
 def get_relevant_chunks(query,embeddings, chunks, k=5):
   query_embedding = embed_model.encode(query)
   # distances, indices = index.search(np.array(query_embedding),k)
-  
+
   scores = np.dot(embeddings, query_embedding.T)
   top_k_idx = np.argsort(scores)[-k:][::-1]
 
@@ -137,7 +137,7 @@ def ask_question(query,embeddings,chunks):
   context = clean_text(context)
 
   logger.info(f"context length: {len(context)}")
-  
+
 
   # updated prompt because wise precise and 10 lines answer only news lines added
   prompt = f"""
@@ -209,8 +209,8 @@ if uploaded_file:
     st.session_state.chat.append(("bot",answer))
     st.session_state.context = context
 
-  
-    
+
+
     st.session_state.eval_data.append({
         "question": str(query) if query else " ",
         "answer": str(answer) if answer else " ",
@@ -228,7 +228,7 @@ if uploaded_file:
 
   if st.button("run evaluation"):
 
-    if "eval_data" in st.session_state and len(st.session_state.eval_data) > 0:
+    if "eval_data" in st.session_statelen(st.session_state.eval_data) > 0:
       st.write("running evaluation")
 
 
@@ -238,14 +238,14 @@ if uploaded_file:
       result, df = run_evaluate(st.session_state.eval_data)
       st.write(df)
 
-    
+
     else:
       st.warning("no data to evaluate")
 
 
   # if st.button("evaluate RAG"):
   #   if "eval_data" in st.session_state and st.session_state.eval_data:
-      
+
   #     dataset = Dataset.from_list(st.session_state.eval_data)
   #     dataset = evaluate(
   #         dataset,
@@ -255,9 +255,9 @@ if uploaded_file:
   #             context_precision,
   #             context_recall
   #         ]
-          
+
   #     )
-      
+
   #     st.write("Evaluation Results")
   #     st.write(result)
 
