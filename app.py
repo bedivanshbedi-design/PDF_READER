@@ -152,6 +152,7 @@ def ask_question(query,embeddings,chunks):
 
   # updated prompt because wise precise and 10 lines answer only news lines added
   prompt = f"""
+  answer the question only from context below
   Context:
   {context}
 
@@ -163,7 +164,7 @@ def ask_question(query,embeddings,chunks):
 
   answer =""
   result=qa_pipeline(prompt)
-  answer = result[0]["generated_text"].strip()
+  answer = result[0]["generated_text"].replace(prompt, " ").strip()
   logger.info(f"final answer: {answer}")
   return answer, context
 
